@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg-color: #F8F9FA;
+  --text-color: #000000;
+  --text-white: #000000;
+  --a-color: #059669;
+  --a-hover-color: #000000; 
+  --bg-gray-950: #F3F4F6;
+  --bg-black: #ffffff;
+  --bg-gray-900: #d1d5db;
+  --bg-gray-800: #ebebeb;
+  --text-gray-300 : #000000;
+  --border-white: #000000;
+}
+
+[data-theme="dark"] {
+  --bg-color: #020304;
+  --text-color: #ffffff;
+  --text-white: #ffffff;
+  --a-color: #34D399; 
+  --a-hover-color: #ffffff; 
+  --bg-gray-950: #030712; 
+  --bg-black: #000000ee;  
+  --bg-gray-900: #111827;
+  --bg-gray-800: #1F2937; 
+  --text-gray-300 : #ffffff;
+  --border-white: #ffffff;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  scroll-behavior: smooth;
+}
+
+.bg-gray-950 {
+  background-color: var(--bg-gray-950);
+}
+
+.bg-gray-900 {
+  background-color: var(--bg-gray-900);
+}
+
+.bg-gray-800 {
+  background-color: var(--bg-gray-800);
+}
+
+.border-white{
+  border-color: var(--border-white)
+}
+
+.text-white{
+  color: var(--text-white)
+}
+
+.text-gray-300{
+  color: var(--text-gray-300)
+}
