@@ -8,6 +8,7 @@ import Experience from "./components/experience";
 import Contact from "./components/contact";
 import Footer from "./components/footer";
 import AdminProjects from "./components/AdminProjects";
+import AdminMessages from "./components/AdminMessages";
 import "./App.css";
 
 function App() {
@@ -25,6 +26,11 @@ function App() {
           <Route path="/admin" element={
             <div style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)", minHeight: "100vh" }}>
               <AdminProjects />
+            </div>
+          } />
+          <Route path="/admin/messages" element={
+            <div style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)", minHeight: "100vh" }}>
+              <AdminMessages />
             </div>
           } />
           <Route path="/" element={

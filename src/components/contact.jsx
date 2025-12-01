@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaEnvelope,
   FaPhone,
@@ -6,8 +6,56 @@ import {
   FaGithub,
   FaWhatsapp,
 } from "react-icons/fa";
+import { supabase } from "../lib/supabase";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ type: '', message: '' });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus({ type: '', message: '' });
+
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        }]);
+
+      if (error) throw error;
+
+      setStatus({
+        type: 'success',
+        message: 'Message sent successfully! I\'ll get back to you soon.'
+      });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      setStatus({
+        type: 'error',
+        message: 'Failed to send message. Please try again later.'
+      });
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 return (
     <section id="contact" className="py-16">
         <div className="container mx-auto px-4">
@@ -71,10 +119,25 @@ return (
                         Let's work <span className="text-green-primary">together.</span>
                     </h2>
 
-                    <form className="space-y-6">
+                    {status.message && (
+                      <div
+                        className={`mb-4 p-4 rounded ${
+                          status.type === 'success'
+                            ? 'bg-green-500 text-white'
+                            : 'bg-red-500 text-white'
+                        }`}
+                      >
+                        {status.message}
+                      </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <input
                                 type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
                                 placeholder="Name *"
                                 className="w-full bg-gray-800 border-none rounded-md p-4 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-primary focus:outline-none"
                                 required
@@ -84,6 +147,9 @@ return (
                         <div>
                             <input
                                 type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 placeholder="Email *"
                                 className="w-full bg-gray-800 border-none rounded-md p-4 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-primary focus:outline-none"
                                 required
@@ -92,6 +158,9 @@ return (
 
                         <div>
                             <textarea
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
                                 placeholder="Your Message *"
                                 rows={6}
                                 className="w-full bg-gray-800 border-none rounded-md p-4 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-primary focus:outline-none resize-none"
@@ -101,9 +170,10 @@ return (
 
                         <button
                             type="submit"
-                            className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-4 rounded-md transition-colors"
+                            disabled={loading}
+                            className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-4 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Send Message
+                            {loading ? 'Sending...' : 'Send Message'}
                         </button>
                     </form>
                 </div>

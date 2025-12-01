@@ -49,6 +49,30 @@ INSERT INTO projects (title, description, image, technologies, github, liveDemo)
 -- Enable Row Level Security (RLS)
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 
+-- Create contact_messages table
+CREATE TABLE contact_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable Row Level Security for contact_messages
+ALTER TABLE contact_messages ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone to insert contact messages (public form submission)
+CREATE POLICY "Allow public insert" ON contact_messages
+  FOR INSERT WITH CHECK (true);
+
+-- Only allow authenticated admins to read contact messages
+CREATE POLICY "Allow admin read" ON contact_messages
+  FOR SELECT USING (auth.role() = 'authenticated');
+
+-- Allow authenticated admins to delete contact messages
+CREATE POLICY "Allow admin delete" ON contact_messages
+  FOR DELETE USING (auth.role() = 'authenticated');
+
 -- Create a policy that allows anyone to read projects
 CREATE POLICY "Allow public read access" ON projects
   FOR SELECT USING (true);
