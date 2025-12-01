@@ -80,7 +80,7 @@ return (
                         <div>
                             <h3 className="text-gray-400 font-medium mb-2">CONTACT US</h3>
                             <a href="tel:+2349168897258" className="text-white">+234 9168897258</a><br/>
-                            <a href="tel:+234902595668" className="text-white">+234 902595668</a>
+                            <a href="tel:+2349025955668" className="text-white">+234 902595668</a>
                         </div>
                     </div>
                     <div>
