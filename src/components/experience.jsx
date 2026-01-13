@@ -23,7 +23,7 @@ const experiences = [
     role: 'Freelance Frontend Developer',
     company: 'Self-Employed',
     location: 'Remote',
-    period: 'Jan 2022 - Present',
+    period: 'Jan 2023 - Present',
     description: 'Designing and building modern, responsive websites for various clients across different industries. Focus on creating performant, accessible, and visually appealing web experiences.',
     achievements: [
       'Delivered 10+ successful client projects',
