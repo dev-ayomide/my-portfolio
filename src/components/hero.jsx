@@ -113,7 +113,7 @@ export default function Hero() {
             >
               <div className="flex items-center gap-4">
                 <div
-                  className="h-[2px] w-12"
+                  className="h-[2px] w-6"
                   style={{ background: 'var(--accent-primary)' }}
                 />
                 <h2
