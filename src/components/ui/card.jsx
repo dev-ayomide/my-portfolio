@@ -1,9 +1,11 @@
-import React from "react";
-
-export function Card({ className, children, ...props }) {
+export function Card({ className = '', children, ...props }) {
   return (
-    <div 
-      className={`bg-gray-900 rounded-lg border border-gray-800 shadow-md overflow-hidden ${className}`} 
+    <div
+      className={`rounded-2xl overflow-hidden transition-all duration-300 ${className}`}
+      style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-primary)',
+      }}
       {...props}
     >
       {children}
@@ -11,7 +13,7 @@ export function Card({ className, children, ...props }) {
   );
 }
 
-export function CardHeader({ className, children, ...props }) {
+export function CardHeader({ className = '', children, ...props }) {
   return (
     <div className={`p-6 pb-3 ${className}`} {...props}>
       {children}
@@ -19,23 +21,31 @@ export function CardHeader({ className, children, ...props }) {
   );
 }
 
-export function CardTitle({ className, children, ...props }) {
+export function CardTitle({ className = '', children, ...props }) {
   return (
-    <h3 className={`text-xl font-bold text-green-light ${className}`} {...props}>
+    <h3
+      className={`text-xl font-bold font-display ${className}`}
+      style={{ color: 'var(--accent-primary)' }}
+      {...props}
+    >
       {children}
     </h3>
   );
 }
 
-export function CardDescription({ className, children, ...props }) {
+export function CardDescription({ className = '', children, ...props }) {
   return (
-    <p className={`text-gray-400 mt-1 ${className}`} {...props}>
+    <p
+      className={`mt-1 text-sm ${className}`}
+      style={{ color: 'var(--text-secondary)' }}
+      {...props}
+    >
       {children}
     </p>
   );
 }
 
-export function CardContent({ className, children, ...props }) {
+export function CardContent({ className = '', children, ...props }) {
   return (
     <div className={`p-6 pt-3 ${className}`} {...props}>
       {children}

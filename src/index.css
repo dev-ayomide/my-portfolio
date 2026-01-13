@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Smooth scrolling for the entire document */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base layer customizations */
+@layer base {
+  body {
+    @apply antialiased;
+  }
+  
+  /* Custom selection colors */
+  ::selection {
+    @apply bg-accent-500 text-white;
+  }
+  
+  ::-moz-selection {
+    @apply bg-accent-500 text-white;
+  }
+}
+
+/* Component layer customizations */
+@layer components {
+  /* Smooth transitions for all interactive elements */
+  a, button {
+    @apply transition-all duration-300;
+  }
+}
+
+/* Utility layer customizations */
+@layer utilities {
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  /* Custom text balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
