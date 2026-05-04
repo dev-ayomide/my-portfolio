@@ -2,13 +2,16 @@ name: Supabase Keep-Alive
 
 on:
   schedule:
-    # Runs every 6 days at 00:00 UTC (before the 7-day inactivity limit)
-    - cron: '0 0 */6 * *'
+    # Runs every 2 days at 00:00 UTC
+    - cron: '0 0 */2 * *'
   workflow_dispatch: # Allows manual trigger
 
 jobs:
   keep-alive:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
     
     steps:
       - name: Ping Supabase Database
@@ -22,4 +25,9 @@ jobs:
       - name: Log success
         run: |
           echo "✅ Supabase keep-alive successful at $(date)"
+
+      - name: Keep GitHub Action alive
+        uses: gautamkrishnar/keepalive-workflow@v2
+        with:
+          use_api: true
 
