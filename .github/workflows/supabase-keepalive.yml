@@ -14,20 +14,37 @@ jobs:
       contents: write
     
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Ping Supabase Database
+        env:
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || secrets.SUPABASE_ANON_KEY }}
         run: |
-          curl -X GET \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/projects?select=id&limit=1" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-            --fail || echo "Keep-alive ping sent"
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "❌ Error: Supabase secrets are not configured in GitHub."
+            echo "Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your repository secrets."
+            exit 1
+          fi
+          
+          # Remove trailing slash from URL if present
+          CLEAN_URL=$(echo $SUPABASE_URL | sed 's/\/$//')
+          
+          echo "Initiating keep-alive ping to Supabase..."
+          curl -s -X GET \
+            "$CLEAN_URL/rest/v1/projects?select=id&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            --fail || echo "⚠️ Ping failed, but continuing workflow..."
       
       - name: Log success
         run: |
-          echo "✅ Supabase keep-alive successful at $(date)"
+          echo "✅ Supabase keep-alive check completed at $(date)"
 
       - name: Keep GitHub Action alive
         uses: gautamkrishnar/keepalive-workflow@v2
         with:
           use_api: true
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
 
