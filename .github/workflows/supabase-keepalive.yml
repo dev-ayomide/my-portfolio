@@ -9,9 +9,9 @@ on:
 jobs:
   keep-alive:
     runs-on: ubuntu-latest
-    # permissions:
-    #   actions: write
-    #   contents: write
+    permissions:
+      actions: write
+      contents: write
     
     steps:
       - name: Checkout Repository
