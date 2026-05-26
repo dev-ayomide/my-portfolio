@@ -57,7 +57,7 @@ export default function ImageUpload({ onImageUpload, currentImage, className = '
             <label className="block text-white mb-2">Project Image</label>
             
             {/* Upload Area */}
-            <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-green-primary transition-colors">
+            <div className="relative border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-green-primary transition-colors">
                 {preview ? (
                     <div className="space-y-4">
                         <div className="relative inline-block">

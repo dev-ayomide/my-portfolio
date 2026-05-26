@@ -7,6 +7,9 @@ CREATE TABLE projects (
   technologies TEXT[] NOT NULL,
   github TEXT NOT NULL,
   liveDemo TEXT NOT NULL,
+  key_features TEXT[],
+  is_hackathon BOOLEAN DEFAULT FALSE,
+  hackathon_position TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -45,6 +48,13 @@ INSERT INTO projects (title, description, image, technologies, github, liveDemo)
   'https://github.com/dev-ayomide/arbitrum-token-app',
   'https://arbitrum-token-app.vercel.app/'
 );
+
+-- Migration: add hackathon and key features fields
+-- Run this if the table already exists:
+-- ALTER TABLE projects
+--   ADD COLUMN IF NOT EXISTS is_hackathon BOOLEAN DEFAULT FALSE,
+--   ADD COLUMN IF NOT EXISTS hackathon_position TEXT,
+--   ADD COLUMN IF NOT EXISTS key_features TEXT[];
 
 -- Enable Row Level Security (RLS)
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;

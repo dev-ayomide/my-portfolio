@@ -18,7 +18,10 @@ export default function AdminProjects() {
         image: '',
         technologies: '',
         github: '',
-        liveDemo: ''
+        liveDemo: '',
+        key_features: '',
+        is_hackathon: false,
+        hackathon_position: ''
     });
 
     useEffect(() => {
@@ -67,10 +70,10 @@ export default function AdminProjects() {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [name]: type === 'checkbox' ? checked : value
         }));
     };
 
@@ -80,7 +83,11 @@ export default function AdminProjects() {
         try {
             const projectData = {
                 ...formData,
-                technologies: formData.technologies.split(',').map(tech => tech.trim())
+                technologies: formData.technologies.split(',').map(tech => tech.trim()).filter(Boolean),
+                key_features: formData.key_features
+                    ? formData.key_features.split(',').map(f => f.trim()).filter(Boolean)
+                    : [],
+                hackathon_position: formData.is_hackathon ? formData.hackathon_position : ''
             };
 
             if (editingProject) {
@@ -99,7 +106,10 @@ export default function AdminProjects() {
                 image: '',
                 technologies: '',
                 github: '',
-                liveDemo: ''
+                liveDemo: '',
+                key_features: '',
+                is_hackathon: false,
+                hackathon_position: ''
             });
             fetchProjects();
         } catch (err) {
@@ -116,7 +126,10 @@ export default function AdminProjects() {
             image: project.image,
             technologies: project.technologies.join(', '),
             github: project.github,
-            liveDemo: project.liveDemo
+            liveDemo: project.liveDemo,
+            key_features: project.key_features?.join(', ') || '',
+            is_hackathon: project.is_hackathon || false,
+            hackathon_position: project.hackathon_position || ''
         });
         setShowForm(true);
     };
@@ -143,7 +156,10 @@ export default function AdminProjects() {
             image: '',
             technologies: '',
             github: '',
-            liveDemo: ''
+            liveDemo: '',
+            key_features: '',
+            is_hackathon: false,
+            hackathon_position: ''
         });
     };
 
@@ -241,7 +257,51 @@ export default function AdminProjects() {
                                 required
                             />
                         </div>
-                        
+
+                        <div>
+                            <label className="block text-white mb-2">Key Features (comma-separated)</label>
+                            <input
+                                type="text"
+                                name="key_features"
+                                value={formData.key_features}
+                                onChange={handleInputChange}
+                                placeholder="Real-time sync, Offline mode, AI integration"
+                                className="w-full bg-gray-800 text-white p-3 rounded border border-gray-700 focus:border-green-primary focus:outline-none"
+                            />
+                        </div>
+
+                        <div className="flex items-start gap-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
+                            <label className="flex items-center gap-3 cursor-pointer select-none">
+                                <input
+                                    type="checkbox"
+                                    name="is_hackathon"
+                                    checked={formData.is_hackathon}
+                                    onChange={handleInputChange}
+                                    className="w-5 h-5 accent-green-500 cursor-pointer"
+                                />
+                                <span className="text-white font-medium">Hackathon Project</span>
+                            </label>
+                            {formData.is_hackathon && (
+                                <div className="flex-1">
+                                    <label className="block text-gray-400 text-sm mb-2">Position / Award</label>
+                                    <select
+                                        name="hackathon_position"
+                                        value={formData.hackathon_position}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-gray-700 text-white p-2 rounded border border-gray-600 focus:border-green-primary focus:outline-none text-sm"
+                                    >
+                                        <option value="">— Select position —</option>
+                                        <option value="1st Place">🥇 1st Place</option>
+                                        <option value="2nd Place">🥈 2nd Place</option>
+                                        <option value="3rd Place">🥉 3rd Place</option>
+                                        <option value="Finalist">Finalist</option>
+                                        <option value="Runner-up">Runner-up</option>
+                                        <option value="Participant">Participant</option>
+                                    </select>
+                                </div>
+                            )}
+                        </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-white mb-2">GitHub URL</label>
@@ -293,7 +353,14 @@ export default function AdminProjects() {
                             <img src={project.image} alt={project.title} className="object-cover w-full h-full" />
                         </div>
                         <div className="p-6">
-                            <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+                            <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                                {project.is_hackathon && (
+                                    <span className="text-xs px-2 py-1 rounded-full font-semibold" style={{ background: '#f59e0b', color: '#fff' }}>
+                                        🏆 {project.hackathon_position || 'Hackathon'}
+                                    </span>
+                                )}
+                            </div>
                             <p className="text-gray-300 text-sm mb-2">{project.description}</p>
                             <div className="flex flex-wrap gap-1 mb-4">
                                 {project.technologies.map((tech, index) => (
