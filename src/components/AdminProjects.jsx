@@ -14,12 +14,13 @@ export default function AdminProjects() {
     const [editingProject, setEditingProject] = useState(null);
     const [formData, setFormData] = useState({
         title: '',
+        short_summary: '',
         description: '',
         image: '',
         technologies: '',
         github: '',
         liveDemo: '',
-        key_features: '',
+        key_features: [''],
         is_hackathon: false,
         hackathon_position: ''
     });
@@ -77,6 +78,25 @@ export default function AdminProjects() {
         }));
     };
 
+    const handleFeatureChange = (index, value) => {
+        setFormData(prev => {
+            const updated = [...prev.key_features];
+            updated[index] = value;
+            return { ...prev, key_features: updated };
+        });
+    };
+
+    const addFeature = () => {
+        setFormData(prev => ({ ...prev, key_features: [...prev.key_features, ''] }));
+    };
+
+    const removeFeature = (index) => {
+        setFormData(prev => {
+            const updated = prev.key_features.filter((_, i) => i !== index);
+            return { ...prev, key_features: updated.length ? updated : [''] };
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -84,9 +104,7 @@ export default function AdminProjects() {
             const projectData = {
                 ...formData,
                 technologies: formData.technologies.split(',').map(tech => tech.trim()).filter(Boolean),
-                key_features: formData.key_features
-                    ? formData.key_features.split(',').map(f => f.trim()).filter(Boolean)
-                    : [],
+                key_features: formData.key_features.map(f => f.trim()).filter(Boolean),
                 hackathon_position: formData.is_hackathon ? formData.hackathon_position : ''
             };
 
@@ -102,12 +120,13 @@ export default function AdminProjects() {
             setEditingProject(null);
             setFormData({
                 title: '',
+                short_summary: '',
                 description: '',
                 image: '',
                 technologies: '',
                 github: '',
                 liveDemo: '',
-                key_features: '',
+                key_features: [''],
                 is_hackathon: false,
                 hackathon_position: ''
             });
@@ -122,12 +141,13 @@ export default function AdminProjects() {
         setEditingProject(project);
         setFormData({
             title: project.title,
+            short_summary: project.short_summary || '',
             description: project.description,
             image: project.image,
             technologies: project.technologies.join(', '),
             github: project.github,
             liveDemo: project.liveDemo,
-            key_features: project.key_features?.join(', ') || '',
+            key_features: project.key_features?.length ? project.key_features : [''],
             is_hackathon: project.is_hackathon || false,
             hackathon_position: project.hackathon_position || ''
         });
@@ -152,12 +172,13 @@ export default function AdminProjects() {
         setEditingProject(null);
         setFormData({
             title: '',
+            short_summary: '',
             description: '',
             image: '',
             technologies: '',
             github: '',
             liveDemo: '',
-            key_features: '',
+            key_features: [''],
             is_hackathon: false,
             hackathon_position: ''
         });
@@ -226,13 +247,26 @@ export default function AdminProjects() {
                                 />
                             </div>
                             <div>
-                                <ImageUpload 
+                                <ImageUpload
                                     onImageUpload={(imageUrl) => setFormData(prev => ({ ...prev, image: imageUrl }))}
                                     currentImage={formData.image}
                                 />
                             </div>
                         </div>
-                        
+
+                        <div>
+                            <label className="block text-white mb-1">Short Summary</label>
+                            <p className="text-gray-400 text-xs mb-2">A punchy one-liner that appears as a subtitle in the project modal</p>
+                            <input
+                                type="text"
+                                name="short_summary"
+                                value={formData.short_summary}
+                                onChange={handleInputChange}
+                                placeholder="e.g. AI-powered room planner built in 48 hours at a hackathon"
+                                className="w-full bg-gray-800 text-white p-3 rounded border border-gray-700 focus:border-green-primary focus:outline-none"
+                            />
+                        </div>
+
                         <div>
                             <label className="block text-white mb-2">Description</label>
                             <textarea
@@ -259,15 +293,40 @@ export default function AdminProjects() {
                         </div>
 
                         <div>
-                            <label className="block text-white mb-2">Key Features (comma-separated)</label>
-                            <input
-                                type="text"
-                                name="key_features"
-                                value={formData.key_features}
-                                onChange={handleInputChange}
-                                placeholder="Real-time sync, Offline mode, AI integration"
-                                className="w-full bg-gray-800 text-white p-3 rounded border border-gray-700 focus:border-green-primary focus:outline-none"
-                            />
+                            <label className="block text-white mb-2">Key Features</label>
+                            <div className="space-y-2">
+                                {formData.key_features.map((feature, i) => (
+                                    <div key={i} className="flex items-center gap-2">
+                                        <span className="text-xs font-mono text-green-400 font-bold w-6 flex-shrink-0">
+                                            {String(i + 1).padStart(2, '0')}
+                                        </span>
+                                        <input
+                                            type="text"
+                                            value={feature}
+                                            onChange={(e) => handleFeatureChange(i, e.target.value)}
+                                            placeholder={`Feature ${i + 1}, e.g. Real-time collaboration`}
+                                            className="flex-1 bg-gray-800 text-white p-2.5 rounded border border-gray-700 focus:border-green-primary focus:outline-none text-sm"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeFeature(i)}
+                                            disabled={formData.key_features.length === 1 && !feature}
+                                            className="w-8 h-8 flex items-center justify-center rounded text-red-400 hover:bg-red-900/30 hover:text-red-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+                                            title="Remove feature"
+                                        >
+                                            <FaTimes size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={addFeature}
+                                className="mt-2 flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
+                            >
+                                <FaPlus size={10} />
+                                Add Feature
+                            </button>
                         </div>
 
                         <div className="flex items-start gap-6 p-4 bg-gray-800 rounded-lg border border-gray-700">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { FaGithub, FaExternalLinkAlt, FaSpinner, FaArrowRight } from 'react-icons/fa';
 import { projectsService } from '../services/projectsService';
 import ProjectModal from './ProjectModal';
@@ -8,6 +8,7 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -17,67 +18,46 @@ export default function Projects() {
       try {
         setLoading(true);
         const { data, error } = await projectsService.getProjects();
-        
         if (error) {
           setError('Failed to load projects');
-          console.error('Error:', error);
         } else {
           setProjects(data || []);
         }
-      } catch (err) {
+      } catch {
         setError('Failed to load projects');
-        console.error('Error:', err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProjects();
   }, []);
 
-  // Get unique categories from projects
   const categories = ['All', ...new Set(projects.map(p => p.category).filter(Boolean))];
-
-  // Filter projects based on selected category
-  const filteredProjects = selectedCategory === 'All' 
-    ? projects 
+  const filteredProjects = selectedCategory === 'All'
+    ? projects
     : projects.filter(p => p.category === selectedCategory);
 
-  const openModal = (project) => {
+  const openModal = (project, index) => {
     setSelectedProject(project);
+    setSelectedIndex(index);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setTimeout(() => setSelectedProject(null), 300);
+    setTimeout(() => setSelectedProject(null), 400);
   };
 
-  // Handle mouse move for card glow effect
-  const handleMouseMove = (e, cardId) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    card.style.setProperty('--mouse-x', `${x}%`);
-    card.style.setProperty('--mouse-y', `${y}%`);
+  const handleNavigate = (project, index) => {
+    setSelectedProject(project);
+    setSelectedIndex(index);
   };
 
-  // Loading state
   if (loading) {
     return (
       <section id="portfolio" className="py-24 md:py-32" style={{ background: 'var(--bg-secondary)' }}>
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          <div className="section-header">
-            <div className="section-label">
-              <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-primary)' }} />
-              Portfolio
-            </div>
-            <h2 className="section-title">Featured Projects</h2>
-            <p className="section-subtitle">
-              A selection of projects that showcase my skills and passion for building great products.
-            </p>
-          </div>
+          <SectionHeader />
           <div className="flex items-center justify-center py-20">
             <FaSpinner className="animate-spin text-4xl" style={{ color: 'var(--accent-primary)' }} />
           </div>
@@ -86,26 +66,14 @@ export default function Projects() {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <section id="portfolio" className="py-24 md:py-32" style={{ background: 'var(--bg-secondary)' }}>
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          <div className="section-header">
-            <div className="section-label">
-              <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-primary)' }} />
-              Portfolio
-            </div>
-            <h2 className="section-title">Featured Projects</h2>
-          </div>
+          <SectionHeader />
           <div className="text-center py-20">
             <p className="text-lg mb-4" style={{ color: 'var(--text-secondary)' }}>{error}</p>
-            <button 
-              onClick={() => window.location.reload()} 
-              className="btn-primary"
-            >
-              Try Again
-            </button>
+            <button onClick={() => window.location.reload()} className="btn-primary">Try Again</button>
           </div>
         </div>
       </section>
@@ -114,69 +82,63 @@ export default function Projects() {
 
   return (
     <>
-      <section 
-        id="portfolio" 
+      <section
+        id="portfolio"
         className="py-24 md:py-32 relative overflow-hidden"
         style={{ background: 'var(--bg-secondary)' }}
       >
-        {/* Background decoration */}
+        {/* Ambient background orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div
-            className="absolute w-[800px] h-[800px] rounded-full opacity-10 blur-3xl"
+            className="absolute rounded-full blur-3xl"
             style={{
-              background: 'radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%)',
-              top: '50%',
-              left: '-20%',
-              transform: 'translateY(-50%)',
+              width: '650px', height: '650px',
+              background: 'radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)',
+              top: '10%', right: '-15%',
+            }}
+          />
+          <div
+            className="absolute rounded-full blur-3xl"
+            style={{
+              width: '500px', height: '500px',
+              background: 'radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 70%)',
+              bottom: '5%', left: '-10%',
             }}
           />
         </div>
 
         <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
-          {/* Section Header */}
-          <div className="section-header">
-            <div className="section-label">
-              <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-primary)' }} />
-              Portfolio
-            </div>
-            <h2 className="section-title">
-              Featured <span className="text-gradient-static">Projects</span>
-            </h2>
-            <p className="section-subtitle">
-              A selection of projects that showcase my skills and passion for building great digital experiences.
-            </p>
-          </div>
+          <SectionHeader />
 
-          {/* Category Filter */}
+          {/* Category filter */}
           {categories.length > 1 && (
             <div className="flex justify-center mb-16">
-              <div className="inline-flex items-center gap-3 flex-wrap justify-center">
-                {categories.map((category) => (
+              <div
+                className="inline-flex items-center gap-1 p-1 rounded-full"
+                style={{
+                  background: 'var(--bg-tertiary)',
+                  border: '1px solid var(--border-primary)',
+                }}
+              >
+                {categories.map((cat) => (
                   <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className="px-8 py-3 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 hover:scale-105"
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className="px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300"
                     style={{
-                      background: selectedCategory === category 
-                        ? 'var(--text-primary)' 
-                        : 'transparent',
-                      color: selectedCategory === category 
-                        ? 'var(--bg-primary)' 
-                        : 'var(--text-secondary)',
-                      border: selectedCategory === category 
-                        ? 'none' 
-                        : '1px solid var(--border-primary)',
+                      background: selectedCategory === cat ? 'var(--accent-primary)' : 'transparent',
+                      color: selectedCategory === cat ? '#fff' : 'var(--text-secondary)',
+                      boxShadow: selectedCategory === cat ? '0 0 0 3px rgba(16,185,129,0.25)' : 'none',
                     }}
-                    data-cursor="pointer"
                   >
-                    {category}
+                    {cat}
                   </button>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Projects Grid */}
+          {/* Projects grid — uniform 3-col, aspect-[4/3] */}
           {filteredProjects.length === 0 ? (
             <div className="text-center py-20">
               <p style={{ color: 'var(--text-secondary)' }} className="text-lg">
@@ -184,182 +146,273 @@ export default function Projects() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProjects.map((project, index) => (
-                <div
+                <ProjectCard
                   key={project.id}
-                  onClick={() => openModal(project)}
-                  onMouseMove={(e) => handleMouseMove(e, project.id)}
-                  onMouseEnter={() => setHoveredCard(project.id)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  className="card-glow group cursor-pointer rounded-2xl overflow-hidden"
-                  style={{
-                    background: 'var(--bg-card)',
-                    border: '1px solid var(--border-primary)',
-                    transform: hoveredCard === project.id ? 'translateY(-8px) scale(1.02)' : 'translateY(0)',
-                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                    transitionDelay: `${index * 100}ms`,
-                    boxShadow: hoveredCard === project.id 
-                      ? '0 20px 40px rgba(16, 185, 129, 0.15)' 
-                      : 'none',
-                    animation: `fadeInUp 0.6s ease-out forwards ${index * 100}ms`,
-                    opacity: 0,
-                  }}
-                  data-cursor="pointer"
-                >
-                  {/* Project Image */}
-                  <div className="relative h-52 overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    {/* Overlay gradient */}
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{
-                        background: 'linear-gradient(to top, rgba(13, 14, 16, 0.8) 0%, transparent 50%)',
-                      }}
-                    />
-                    
-                    {/* Category badge */}
-                    <div className="absolute top-4 left-4">
-                      <span
-                        className="px-3 py-1.5 rounded-full text-xs font-semibold"
-                        style={{
-                          background: 'rgba(16, 185, 129, 0.9)',
-                          color: 'white',
-                        }}
-                      >
-                        {project.category || 'Project'}
-                      </span>
-                    </div>
-
-                    {/* Quick action buttons - shown on hover */}
-                    <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.9)',
-                            color: '#0d0e10',
-                          }}
-                        >
-                          <FaGithub size={16} />
-                        </a>
-                      )}
-                      {project.liveDemo && (
-                        <a
-                          href={project.liveDemo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                          style={{
-                            background: 'var(--accent-primary)',
-                            color: 'white',
-                          }}
-                        >
-                          <FaExternalLinkAlt size={14} />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Project Info */}
-                  <div className="p-6">
-                    {/* Title */}
-                    <h3
-                      className="text-xl font-bold mb-2 font-display transition-all duration-300"
-                      style={{ color: hoveredCard === project.id ? 'var(--accent-primary)' : 'var(--text-primary)' }}
-                    >
-                      {project.title}
-                    </h3>
-
-                    {/* Tech stack */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.technologies?.slice(0, 3).map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="px-2.5 py-1 rounded-md text-xs font-medium"
-                          style={{
-                            background: 'var(--bg-tertiary)',
-                            color: 'var(--text-tertiary)',
-                          }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.technologies?.length > 3 && (
-                        <span
-                          className="px-2.5 py-1 rounded-md text-xs font-medium"
-                          style={{
-                            background: 'var(--bg-tertiary)',
-                            color: 'var(--accent-primary)',
-                          }}
-                        >
-                          +{project.technologies.length - 3}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Description */}
-                    <p
-                      className="text-sm leading-relaxed mb-4 line-clamp-2"
-                      style={{ color: 'var(--text-secondary)' }}
-                    >
-                      {project.description}
-                    </p>
-
-                    {/* View Project Link */}
-                    <div
-                      className="flex items-center gap-2 text-sm font-semibold group/link"
-                      style={{ color: 'var(--accent-primary)' }}
-                    >
-                      View Project
-                      <FaArrowRight 
-                        size={12} 
-                        className="transition-transform duration-300 group-hover/link:translate-x-1 group-hover:translate-x-1" 
-                      />
-                    </div>
-                  </div>
-                </div>
+                  project={project}
+                  index={index}
+                  isHovered={hoveredCard === project.id}
+                  onHover={() => setHoveredCard(project.id)}
+                  onLeave={() => setHoveredCard(null)}
+                  onClick={() => openModal(project, index)}
+                />
               ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* Project Modal */}
       <ProjectModal
         project={selectedProject}
+        projects={filteredProjects}
+        currentIndex={selectedIndex}
         isOpen={isModalOpen}
         onClose={closeModal}
+        onNavigate={handleNavigate}
       />
 
       <style>{`
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
+        @keyframes cardFadeUp {
+          from { opacity: 0; transform: translateY(32px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        @keyframes shimmerSweep {
+          0%   { transform: translateX(-100%) skewX(-15deg); opacity: 0; }
+          20%  { opacity: 1; }
+          100% { transform: translateX(220%)  skewX(-15deg); opacity: 0; }
+        }
+        .project-card .shimmer-layer::after {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: 0;
+          width: 60%;
+          height: 200%;
+          background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.075) 50%, transparent 100%);
+          transform: translateX(-100%) skewX(-15deg);
+          pointer-events: none;
+        }
+        .project-card:hover .shimmer-layer::after {
+          animation: shimmerSweep 0.65s ease-out forwards;
         }
       `}</style>
     </>
+  );
+}
+
+function ProjectCard({ project, index, isHovered, onHover, onLeave, onClick }) {
+  const isHackathon = project.is_hackathon;
+  const accentColor = isHackathon ? '#f59e0b' : 'var(--accent-primary)';
+  const glowColor   = isHackathon ? 'rgba(245,158,11,0.2)' : 'rgba(16,185,129,0.18)';
+  const borderColor = isHackathon ? 'rgba(245,158,11,0.5)' : 'rgba(16,185,129,0.45)';
+
+  return (
+    <div
+      className="project-card relative cursor-pointer rounded-2xl overflow-hidden"
+      style={{
+        aspectRatio: '4/3',
+        border: isHovered ? `1px solid ${borderColor}` : '1px solid var(--border-primary)',
+        transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
+        boxShadow: isHovered ? `0 24px 48px ${glowColor}` : '0 2px 12px rgba(0,0,0,0.12)',
+        transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease, border-color 0.3s ease',
+        animation: `cardFadeUp 0.5s ease-out forwards ${index * 80}ms`,
+        opacity: 0,
+      }}
+      onClick={onClick}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+    >
+      {/* Shimmer overlay */}
+      <div
+        className="shimmer-layer"
+        style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 5, pointerEvents: 'none', borderRadius: 'inherit' }}
+      />
+
+      {/* Full-bleed image */}
+      <img
+        src={project.image}
+        alt={project.title}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{
+          transform: isHovered ? 'scale(1.07)' : 'scale(1)',
+          transition: 'transform 0.65s cubic-bezier(0.4,0,0.2,1)',
+        }}
+      />
+
+      {/* Gradient overlay */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: isHovered
+            ? 'linear-gradient(to top, rgba(4,4,6,0.97) 0%, rgba(4,4,6,0.68) 42%, rgba(4,4,6,0.15) 100%)'
+            : 'linear-gradient(to top, rgba(4,4,6,0.92) 0%, rgba(4,4,6,0.48) 38%, rgba(4,4,6,0.06) 100%)',
+          transition: 'background 0.4s ease',
+        }}
+      />
+
+      {/* Left accent bar */}
+      <div
+        className="absolute left-0 top-0 bottom-0"
+        style={{
+          width: '3px',
+          background: accentColor,
+          transform: isHovered ? 'scaleY(1)' : 'scaleY(0)',
+          transformOrigin: 'bottom',
+          transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)',
+          zIndex: 6,
+        }}
+      />
+
+      {/* Project number — top-left */}
+      <div
+        className="absolute top-4 left-5 font-mono font-bold select-none z-10"
+        style={{ fontSize: '11px', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.2)' }}
+      >
+        {String(index + 1).padStart(2, '0')}
+      </div>
+
+      {/* Badge — top-right */}
+      <div className="absolute top-4 right-4 z-10">
+        {isHackathon ? (
+          <span
+            className="px-3 py-1 rounded-full text-xs font-semibold"
+            style={{ background: 'rgba(245,158,11,0.9)', color: '#fff' }}
+          >
+            🏆 {project.hackathon_position || 'Hackathon'}
+          </span>
+        ) : project.category ? (
+          <span
+            className="px-3 py-1 rounded-full text-xs font-semibold"
+            style={{ background: 'rgba(16,185,129,0.85)', color: '#fff' }}
+          >
+            {project.category}
+          </span>
+        ) : null}
+      </div>
+
+      {/* Bottom content */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+        {/* Description peek — slides up on hover */}
+        <div
+          style={{
+            overflow: 'hidden',
+            maxHeight: isHovered ? '52px' : '0px',
+            opacity: isHovered ? 1 : 0,
+            marginBottom: isHovered ? '8px' : '0',
+            transform: isHovered ? 'translateY(0)' : 'translateY(8px)',
+            transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
+          }}
+        >
+          <p
+            className="text-xs leading-relaxed"
+            style={{
+              color: 'rgba(255,255,255,0.58)',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {project.short_summary || project.description}
+          </p>
+        </div>
+
+        {/* Tech chips */}
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {project.technologies?.slice(0, 3).map((tech, i) => (
+            <span
+              key={i}
+              className="px-2 py-0.5 rounded text-xs font-medium"
+              style={{
+                background: 'rgba(255,255,255,0.09)',
+                backdropFilter: 'blur(8px)',
+                color: 'rgba(255,255,255,0.72)',
+                border: '1px solid rgba(255,255,255,0.12)',
+              }}
+            >
+              {tech}
+            </span>
+          ))}
+          {project.technologies?.length > 3 && (
+            <span className="px-2 py-0.5 text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              +{project.technologies.length - 3}
+            </span>
+          )}
+        </div>
+
+        {/* Title + action icons */}
+        <div className="flex items-end justify-between gap-3">
+          <h3
+            className="font-bold text-base leading-tight font-display flex-1 min-w-0"
+            style={{ color: '#fff' }}
+          >
+            {project.title}
+          </h3>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  backdropFilter: 'blur(6px)',
+                  color: '#fff',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                }}
+              >
+                <FaGithub size={13} />
+              </a>
+            )}
+            {project.liveDemo && (
+              <a
+                href={project.liveDemo}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                style={{ background: 'var(--accent-primary)', color: '#fff' }}
+              >
+                <FaExternalLinkAlt size={11} />
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* View Project CTA */}
+        <div
+          className="flex items-center gap-1.5 mt-2"
+          style={{
+            color: accentColor,
+            opacity: isHovered ? 1 : 0,
+            transform: isHovered ? 'translateY(0)' : 'translateY(4px)',
+            transition: 'all 0.3s ease 0.06s',
+          }}
+        >
+          <span className="text-xs font-semibold tracking-widest uppercase">View Project</span>
+          <FaArrowRight size={9} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SectionHeader() {
+  return (
+    <div className="section-header">
+      <div className="section-label">
+        <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-primary)' }} />
+        Portfolio
+      </div>
+      <h2 className="section-title">
+        Featured <span className="text-gradient-static">Projects</span>
+      </h2>
+      <p className="section-subtitle">
+        A selection of projects that showcase my skills and passion for building great digital experiences.
+      </p>
+    </div>
   );
 }
