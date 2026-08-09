@@ -25,8 +25,8 @@ export default function AdminLogin({ onLogin }) {
             } else {
                 onLogin(data.user);
             }
-        } catch (err) {
-            setError('An unexpected error occurred');
+        } catch {
+            setError("An unexpected error occurred");
         } finally {
             setLoading(false);
         }

@@ -1,81 +1,31 @@
 import { useState } from 'react';
-import {
-  FaEnvelope,
-  FaPhone,
-  FaLinkedin,
-  FaGithub,
-  FaWhatsapp,
-  FaMapMarkerAlt,
-  FaPaperPlane,
-  FaCheck,
-  FaSpinner,
-} from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa6';
+import { ArrowUpRight } from './icons';
 import { supabase } from '../lib/supabase';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
-const contactInfo = [
-  {
-    icon: FaEnvelope,
-    label: 'Email',
-    value: 'ayomidepaul784@gmail.com',
-    href: 'mailto:ayomidepaul784@gmail.com',
-    color: '#10B981',
-  },
-  {
-    icon: FaPhone,
-    label: 'Phone',
-    value: '+234 916 889 7258',
-    href: 'tel:+2349168897258',
-    color: '#10B981',
-  },
-  {
-    icon: FaMapMarkerAlt,
-    label: 'Location',
-    value: 'Ogun, Nigeria',
-    href: null,
-    color: '#10B981',
-  },
+const details = [
+  { label: 'Email', value: 'ayomidepaul784@gmail.com', href: 'mailto:ayomidepaul784@gmail.com' },
+  { label: 'Phone', value: '+234 916 889 7258', href: 'tel:+2349168897258' },
+  { label: 'WhatsApp', value: 'Message me', href: 'https://wa.me/qr/MKEHQ4R4AOQKO1' },
+  { label: 'Location', value: 'Lagos, Nigeria — remote friendly', href: null },
 ];
 
-const socialLinks = [
-  {
-    icon: FaLinkedin,
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/taiwoayomide/',
-    color: '#0A66C2',
-  },
-  {
-    icon: FaGithub,
-    label: 'GitHub',
-    href: 'https://github.com/dev-ayomide',
-    color: '#333',
-  },
-  {
-    icon: FaWhatsapp,
-    label: 'WhatsApp',
-    href: 'https://wa.me/qr/MKEHQ4R4AOQKO1',
-    color: '#25D366',
-  },
+const socials = [
+  { label: 'GitHub', href: 'https://github.com/dev-ayomide' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/taiwoayomide/' },
+  { label: 'X', href: 'https://x.com/dev_ayomide' },
+  { label: 'Instagram', href: 'https://www.instagram.com/dev_ayomide_/' },
 ];
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ type: '', message: '' });
-  const [focusedField, setFocusedField] = useState(null);
-
-  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.2 });
-  const { ref: formRef, isVisible: formVisible } = useScrollAnimation({ threshold: 0.1, delay: 200 });
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -96,346 +46,156 @@ export default function Contact() {
 
       setStatus({
         type: 'success',
-        message: "Message sent successfully! I'll get back to you soon.",
+        message: "Message sent. I'll get back to you shortly.",
       });
       setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
+    } catch (err) {
       setStatus({
         type: 'error',
-        message: 'Failed to send message. Please try again later.',
+        message: 'Something went wrong. Try again, or email me directly.',
       });
-      console.error('Error:', error);
+      console.error('Error:', err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="py-24 md:py-32 relative overflow-hidden"
-      style={{ background: 'var(--bg-primary)' }}
-    >
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-3xl"
-          style={{
-            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%)',
-            top: '20%',
-            left: '-15%',
-          }}
-        />
-        <div
-          className="absolute w-[400px] h-[400px] rounded-full opacity-15 blur-3xl"
-          style={{
-            background: 'radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%)',
-            bottom: '10%',
-            right: '-10%',
-          }}
-        />
-      </div>
+    <section id="contact" className="inverted section grain relative">
+      <div className="wrap relative z-10" ref={ref}>
+        <span className="section-cap">Contact</span>
 
-      <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
-        {/* Section Header */}
-        <div
-          ref={headerRef}
-          className={`section-header transition-all duration-700 ${
-            headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <div className="section-label">
-            <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-primary)' }} />
-            Contact
-          </div>
-          <h2 className="section-title">
-            Let's <span className="text-gradient-static">Connect</span>
-          </h2>
-          <p className="section-subtitle">
-            Have a project in mind or just want to chat? I'm always open to discussing new opportunities.
-          </p>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          {/* Pitch */}
+          <div className={`lg:col-span-6 reveal ${isVisible ? 'is-visible' : ''}`}>
+            <h2 className="display-lg">
+              Let&apos;s build <span className="serif-italic">something</span> together.
+            </h2>
 
-        {/* Main Content */}
-        <div
-          ref={formRef}
-          className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 transition-all duration-700 ${
-            formVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {/* Left Column - Contact Info */}
-          <div className="space-y-8">
-            {/* Contact Cards */}
-            <div className="flex flex-col gap-5">
-              {contactInfo.map((item, index) => {
-                const IconComponent = item.icon;
-                const content = (
-                  <div
-                    className="group p-5 rounded-2xl flex items-center gap-5 transition-all duration-300 hover:translate-x-2"
-                    style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border-primary)',
-                    }}
-                    data-cursor="pointer"
-                  >
-                    <div
-                      className="w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                      style={{
-                        background: `${item.color}15`,
-                      }}
-                    >
-                      <IconComponent size={22} style={{ color: item.color }} />
-                    </div>
-                    <div>
-                      <p
-                        className="text-sm font-medium mb-1"
-                        style={{ color: 'var(--text-tertiary)' }}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className="font-semibold"
-                        style={{ color: 'var(--text-primary)' }}
-                      >
-                        {item.value}
-                      </p>
-                    </div>
-                  </div>
-                );
-
-                return item.href ? (
-                  <a key={index} href={item.href}>
-                    {content}
-                  </a>
-                ) : (
-                  <div key={index}>{content}</div>
-                );
-              })}
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h3
-                className="text-lg font-bold mb-4 font-display"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                Connect on Social
-              </h3>
-              <div className="flex gap-3">
-                {socialLinks.map((item, index) => {
-                  const IconComponent = item.icon;
-                  return (
-                    <a
-                      key={index}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
-                      style={{
-                        background: 'var(--bg-card)',
-                        border: '1px solid var(--border-primary)',
-                      }}
-                      data-cursor="pointer"
-                      aria-label={item.label}
-                    >
-                      <IconComponent
-                        size={22}
-                        className="transition-colors duration-300"
-                        style={{ color: 'var(--text-secondary)' }}
-                      />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Availability Card */}
-            <div
-              className="p-6 rounded-2xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1))',
-                border: '1px solid var(--border-primary)',
-              }}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                </span>
-                <span
-                  className="font-semibold"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  Available for Work
-                </span>
-              </div>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                I'm currently open to freelance projects and full-time opportunities. 
-                Let's build something amazing together!
-              </p>
-            </div>
-          </div>
-
-          {/* Right Column - Contact Form */}
-          <div
-            className="p-8 md:p-10 rounded-3xl"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-primary)',
-            }}
-          >
-            <h3
-              className="text-2xl md:text-3xl font-bold mb-2 font-display"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              Send me a message
-            </h3>
-            <p
-              className="mb-8"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              Fill out the form below and I'll get back to you as soon as possible.
+            <p className="mt-6 max-w-md text-lg leading-relaxed" style={{ color: 'var(--inv-text-2)' }}>
+              I&apos;m open to freelance projects, internships and full-time roles. Tell me what
+              you&apos;re working on — I usually reply within a day.
             </p>
 
-            {/* Status Message */}
-            {status.message && (
-              <div
-                className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${
-                  status.type === 'success' ? 'bg-green-500/10' : 'bg-red-500/10'
-                }`}
-              >
-                {status.type === 'success' ? (
-                  <FaCheck className="text-green-500" />
-                ) : (
-                  <span className="text-red-500">✕</span>
-                )}
-                <span
-                  style={{
-                    color: status.type === 'success' ? '#10B981' : '#EF4444',
-                  }}
-                >
-                  {status.message}
-                </span>
-              </div>
-            )}
+            <a
+              href="mailto:ayomidepaul784@gmail.com"
+              className="link-line link-line--static inline-flex mt-8 text-lg md:text-xl font-medium tracking-tight"
+              style={{ color: 'var(--inv-text)' }}
+            >
+              ayomidepaul784@gmail.com
+              <ArrowUpRight size={16} />
+            </a>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
-              <div className="relative">
-                <label
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    focusedField === 'name' || formData.name
-                      ? '-top-2.5 text-xs px-2'
-                      : 'top-4 text-sm'
-                  }`}
-                  style={{
-                    color: focusedField === 'name' ? 'var(--accent-primary)' : 'var(--text-tertiary)',
-                    background: focusedField === 'name' || formData.name ? 'var(--bg-card)' : 'transparent',
-                  }}
+            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-7">
+              {details.map((item) => (
+                <div key={item.label}>
+                  <span className="eyebrow">{item.label}</span>
+                  <span className="block text-sm mt-1.5" style={{ color: 'var(--inv-text)' }}>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                        rel="noopener noreferrer"
+                        className="link-line"
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      item.value
+                    )}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-line font-mono text-[11px] tracking-[0.14em] uppercase"
+                  style={{ color: 'var(--inv-text-2)' }}
                 >
-                  Your Name
+                  {s.label}
+                  <ArrowUpRight size={8} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className={`lg:col-span-6 lg:pl-10 reveal stagger-2 ${isVisible ? 'is-visible' : ''}`}>
+            <form onSubmit={handleSubmit} className="space-y-9">
+              <div>
+                <label htmlFor="name" className="field-label">
+                  Your name
                 </label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('name')}
-                  onBlur={() => setFocusedField(null)}
-                  className="w-full px-4 py-4 rounded-xl outline-none transition-all duration-300"
-                  style={{
-                    background: 'var(--bg-tertiary)',
-                    border: `2px solid ${focusedField === 'name' ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
-                    color: 'var(--text-primary)',
-                  }}
+                  placeholder="Jane Doe"
+                  className="field mt-2"
                   required
                 />
               </div>
 
-              {/* Email Field */}
-              <div className="relative">
-                <label
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    focusedField === 'email' || formData.email
-                      ? '-top-2.5 text-xs px-2'
-                      : 'top-4 text-sm'
-                  }`}
-                  style={{
-                    color: focusedField === 'email' ? 'var(--accent-primary)' : 'var(--text-tertiary)',
-                    background: focusedField === 'email' || formData.email ? 'var(--bg-card)' : 'transparent',
-                  }}
-                >
-                  Your Email
+              <div>
+                <label htmlFor="email" className="field-label">
+                  Your email
                 </label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('email')}
-                  onBlur={() => setFocusedField(null)}
-                  className="w-full px-4 py-4 rounded-xl outline-none transition-all duration-300"
-                  style={{
-                    background: 'var(--bg-tertiary)',
-                    border: `2px solid ${focusedField === 'email' ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
-                    color: 'var(--text-primary)',
-                  }}
+                  placeholder="jane@company.com"
+                  className="field mt-2"
                   required
                 />
               </div>
 
-              {/* Message Field */}
-              <div className="relative">
-                <label
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    focusedField === 'message' || formData.message
-                      ? '-top-2.5 text-xs px-2'
-                      : 'top-4 text-sm'
-                  }`}
-                  style={{
-                    color: focusedField === 'message' ? 'var(--accent-primary)' : 'var(--text-tertiary)',
-                    background: focusedField === 'message' || formData.message ? 'var(--bg-card)' : 'transparent',
-                  }}
-                >
-                  Your Message
+              <div>
+                <label htmlFor="message" className="field-label">
+                  What do you have in mind?
                 </label>
                 <textarea
+                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('message')}
-                  onBlur={() => setFocusedField(null)}
                   rows={5}
-                  className="w-full px-4 py-4 rounded-xl outline-none transition-all duration-300 resize-none"
-                  style={{
-                    background: 'var(--bg-tertiary)',
-                    border: `2px solid ${focusedField === 'message' ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
-                    color: 'var(--text-primary)',
-                  }}
+                  placeholder="A short brief, a timeline, a link…"
+                  className="field mt-2 resize-none"
                   required
                 />
               </div>
 
-              {/* Submit Button */}
+              {status.message && (
+                <p
+                  className="flex items-start gap-3 text-sm"
+                  style={{ color: 'var(--inv-text)' }}
+                  role="status"
+                >
+                  <span className="font-mono text-xs pt-0.5">
+                    {status.type === 'success' ? '✓' : '!'}
+                  </span>
+                  {status.message}
+                </p>
+              )}
+
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-primary w-full group disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-solid w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? (
-                  <>
-                    <FaSpinner className="animate-spin mr-2" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    Send Message
-                    <FaPaperPlane className="ml-2 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                  </>
-                )}
+                {loading ? 'Sending…' : 'Send message'}
+                <FaArrowRight size={11} />
               </button>
             </form>
           </div>

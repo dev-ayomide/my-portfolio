@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/navbar';
 import Hero from './components/hero';
@@ -10,27 +9,13 @@ import Contact from './components/contact';
 import Footer from './components/footer';
 import AdminProjects from './components/AdminProjects';
 import AdminMessages from './components/AdminMessages';
-import CustomCursor from './components/CustomCursor';
 import './App.css';
 
 function App() {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
   return (
     <Router>
-      {/* Custom Cursor - Only on desktop */}
-      <CustomCursor />
-      
-      {/* Noise overlay for texture */}
-      <div className="noise-overlay" />
-
       <Routes>
-        {/* Admin Routes */}
+        {/* Admin */}
         <Route
           path="/admin"
           element={
@@ -48,41 +33,23 @@ function App() {
           }
         />
 
-        {/* Main Portfolio Route */}
+        {/* Portfolio */}
         <Route
           path="/"
           element={
             <div
               className="relative"
-              style={{
-                background: 'var(--bg-primary)',
-                color: 'var(--text-primary)',
-              }}
+              style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
             >
               <Navbar />
-              
+
               <main>
-                <section id="home">
-                  <Hero />
-                </section>
-
-                <section id="about">
-                  <About />
-                </section>
-
+                <Hero />
+                <About />
                 <TechStack />
-
-                <section id="portfolio">
-                  <Projects />
-                </section>
-
-                <section id="experience">
-                  <Experience />
-                </section>
-
-                <section id="contact">
-                  <Contact />
-                </section>
+                <Projects />
+                <Experience />
+                <Contact />
               </main>
 
               <Footer />

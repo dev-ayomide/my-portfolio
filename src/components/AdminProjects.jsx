@@ -63,7 +63,7 @@ export default function AdminProjects() {
             } else {
                 setProjects(data || []);
             }
-        } catch (err) {
+        } catch {
             setError('Failed to load projects');
         } finally {
             setLoading(false);
