@@ -8,42 +8,15 @@ const links = [
   { icon: FaEnvelope, href: 'mailto:ayomidepaul784@gmail.com', label: 'Email' },
 ];
 
-/** 2026 → MMXXVI */
-const toRoman = (year) => {
-  const map = [
-    [1000, 'M'],
-    [900, 'CM'],
-    [500, 'D'],
-    [400, 'CD'],
-    [100, 'C'],
-    [90, 'XC'],
-    [50, 'L'],
-    [40, 'XL'],
-    [10, 'X'],
-    [9, 'IX'],
-    [5, 'V'],
-    [4, 'IV'],
-    [1, 'I'],
-  ];
-  let rest = year;
-  return map.reduce((out, [value, numeral]) => {
-    while (rest >= value) {
-      out += numeral;
-      rest -= value;
-    }
-    return out;
-  }, '');
-};
-
 export default function Footer() {
   return (
     <footer className="inverted pb-12">
       <div className="wrap">
         <div className="rule-inv" />
 
-        <div className="flex flex-col items-center gap-6 pt-12 text-center">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-10">
           <p className="text-sm" style={{ color: 'var(--inv-text-2)' }}>
-            © {toRoman(new Date().getFullYear())} • Ayomide Taiwo • All rights reserved
+            © {new Date().getFullYear()} Ayomide Taiwo
           </p>
 
           <div className="flex items-center gap-7">
@@ -56,14 +29,8 @@ export default function Footer() {
                   target={link.href.startsWith('http') ? '_blank' : undefined}
                   rel="noopener noreferrer"
                   aria-label={link.label}
-                  className="transition-transform duration-300 hover:-translate-y-0.5"
-                  style={{ color: 'var(--inv-text-2)' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = 'var(--inv-text)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'var(--inv-text-2)';
-                  }}
+                  className="transition-opacity duration-300 opacity-60 hover:opacity-100"
+                  style={{ color: 'var(--inv-text)' }}
                 >
                   <Icon size={17} />
                 </a>

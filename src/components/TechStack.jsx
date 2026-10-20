@@ -4,32 +4,46 @@ import {
   SiJavascript,
   SiPython,
   SiPostgresql,
+  SiFastapi,
+  SiNestjs,
+  SiPrisma,
+  SiSqlalchemy,
+  SiPytest,
+  SiRedis,
   SiReact,
   SiNextdotjs,
   SiTailwindcss,
-  SiFramer,
-  SiGreensock,
-  SiDjango,
-  SiNodedotjs,
-  SiExpress,
-  SiFlask,
-  SiPrisma,
-  SiSupabase,
-  SiCloudinary,
-  SiVercel,
   SiGit,
-  SiFigma,
-  SiSocketdotio,
+  SiDocker,
+  SiLinux,
+  SiLangchain,
 } from 'react-icons/si';
 
 const groups = [
   {
     label: 'Languages',
     items: [
+      { name: 'Python', icon: SiPython },
       { name: 'TypeScript', icon: SiTypescript },
       { name: 'JavaScript', icon: SiJavascript },
-      { name: 'Python', icon: SiPython },
       { name: 'SQL', icon: SiPostgresql },
+    ],
+  },
+  {
+    label: 'Backend',
+    items: [
+      { name: 'FastAPI', icon: SiFastapi },
+      { name: 'NestJS', icon: SiNestjs },
+      { name: 'SQLAlchemy', icon: SiSqlalchemy },
+      { name: 'Prisma', icon: SiPrisma },
+      { name: 'Pytest', icon: SiPytest },
+    ],
+  },
+  {
+    label: 'Data',
+    items: [
+      { name: 'PostgreSQL + pgvector', icon: SiPostgresql },
+      { name: 'Redis', icon: SiRedis },
     ],
   },
   {
@@ -38,34 +52,16 @@ const groups = [
       { name: 'React', icon: SiReact },
       { name: 'Next.js', icon: SiNextdotjs },
       { name: 'Tailwind CSS', icon: SiTailwindcss },
-      { name: 'Framer Motion', icon: SiFramer },
-      { name: 'GSAP', icon: SiGreensock },
     ],
   },
   {
-    label: 'Backend',
+    label: 'Tools & AI',
     items: [
-      { name: 'Django', icon: SiDjango },
-      // { name: 'Node.js', icon: SiNodedotjs },
-      // { name: 'Express', icon: SiExpress },
-      { name: 'Flask', icon: SiFlask },
-      { name: 'Socket.IO', icon: SiSocketdotio },
-    ],
-  },
-  {
-    label: 'Data & infra',
-    items: [
-      { name: 'PostgreSQL', icon: SiPostgresql },
-      { name: 'Prisma', icon: SiPrisma },
-      { name: 'Supabase', icon: SiSupabase },
-      { name: 'Cloudinary', icon: SiCloudinary },
-      { name: 'Vercel', icon: SiVercel },
       { name: 'Git', icon: SiGit },
+      { name: 'Docker', icon: SiDocker },
+      { name: 'Linux', icon: SiLinux },
+      { name: 'LangGraph', icon: SiLangchain },
     ],
-  },
-  {
-    label: 'Design',
-    items: [{ name: 'Figma', icon: SiFigma }],
   },
 ];
 
@@ -76,9 +72,7 @@ export default function TechStack() {
     <section id="toolkit" className="section pt-0" style={{ background: 'var(--bg-primary)' }}>
       <div className="wrap" ref={ref}>
         <span className="section-cap">Toolkit</span>
-        <h2 className="display-lg max-w-2xl">
-          The tools I <span className="serif-italic">reach for</span>.
-        </h2>
+        <h2 className="display-lg max-w-2xl">What I work with</h2>
 
         <div
           className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-10 mt-12 md:mt-16 reveal ${

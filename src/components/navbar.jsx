@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { ArrowUpRight } from './icons';
 
 const navLinks = [
   { id: 'about', label: 'About' },
@@ -13,7 +12,6 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -26,9 +24,6 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 24);
-
-      const scrollable = document.body.scrollHeight - window.innerHeight;
-      setProgress(scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0);
 
       const ids = ['home', 'about', 'work', 'experience', 'contact'];
       const probe = window.scrollY + window.innerHeight * 0.35;
@@ -81,12 +76,6 @@ export default function Navbar() {
           paddingBottom: scrolled ? '0.8rem' : '1.25rem',
         }}
       >
-        {/* Reading progress */}
-        <span
-          className="progress-rail"
-          style={{ width: '100%', transform: `scaleX(${progress})`, opacity: scrolled ? 1 : 0 }}
-          aria-hidden="true"
-        />
         <div className="wrap flex items-center justify-between gap-6">
           {/* Wordmark */}
           <a
@@ -95,24 +84,10 @@ export default function Navbar() {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-baseline gap-2.5 group"
+            className="text-[14px] font-medium tracking-tight"
+            style={{ color: 'var(--text-primary)' }}
           >
-            <span
-              className="text-[14px] font-medium tracking-tight"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              <span className="roll">
-                <span className="roll__inner" data-label="Ayomide Taiwo">
-                  Ayomide Taiwo
-                </span>
-              </span>
-            </span>
-            <span
-              className="hidden sm:inline font-mono text-[9px] tracking-[0.18em] uppercase"
-              style={{ color: 'var(--text-tertiary)' }}
-            >
-              AI-Native Software Engineer
-            </span>
+            Ayomide Taiwo
           </a>
 
           {/* Desktop links */}
@@ -131,11 +106,7 @@ export default function Navbar() {
                   style={{ color: active ? 'var(--text-primary)' : 'var(--text-secondary)' }}
                 >
                   <span className="relative">
-                    <span className="roll">
-                      <span className="roll__inner" data-label={link.label}>
-                        {link.label}
-                      </span>
-                    </span>
+                    {link.label}
                     <span
                       className="absolute left-0 -bottom-1 h-px bg-current transition-all duration-500"
                       style={{ width: active ? '100%' : '0%' }}
@@ -149,7 +120,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2.5">
             <ThemeToggle theme={theme} onToggle={() => setTheme(theme === 'dark' ? 'light' : 'dark')} />
 
-            {/* Wrapper handles the breakpoint — .btn-solid sets its own display */}
+            {/* .btn-solid sets display, so the breakpoint lives on a wrapper. */}
             <span className="hidden sm:block">
               <a
                 href="#contact"
@@ -159,12 +130,7 @@ export default function Navbar() {
                 }}
                 className="btn-solid h-9 px-4 text-[12.5px]"
               >
-                <span className="roll">
-                  <span className="roll__inner" data-label="Let's talk">
-                    Let&apos;s talk
-                  </span>
-                </span>
-                <ArrowUpRight size={9} />
+                Contact
               </a>
             </span>
 
@@ -195,10 +161,7 @@ export default function Navbar() {
       >
         <div className="wrap h-full flex flex-col py-7">
           <div className="flex items-center justify-between">
-            <span
-              className="font-mono text-[10px] tracking-[0.2em] uppercase"
-              style={{ color: 'var(--inv-text-3)' }}
-            >
+            <span className="text-sm" style={{ color: 'var(--inv-text-3)' }}>
               Menu
             </span>
             <button
@@ -256,7 +219,7 @@ export default function Navbar() {
             </a>
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="font-mono text-[10px] tracking-[0.18em] uppercase"
+              className="text-sm"
               style={{ color: 'var(--inv-text-3)' }}
             >
               {theme === 'dark' ? 'Light mode' : 'Dark mode'}
@@ -277,7 +240,6 @@ function ThemeToggle({ theme, onToggle }) {
       aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
       title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
     >
-      {/* Half-filled circle: the monochrome way to say "theme" */}
       <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
         <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.2" />
         <path

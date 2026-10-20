@@ -68,12 +68,12 @@ export default function ProjectModal({
       }}
       role="dialog"
       aria-modal="true"
-      aria-label={`${project.title} case study`}
+      aria-label={project.title}
     >
       {/* Close */}
       <button
         onClick={onClose}
-        className="absolute top-5 right-5 z-30 w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300 hover:rotate-90"
+        className="absolute top-5 right-5 z-30 w-10 h-10 rounded-full flex items-center justify-center"
         style={{
           background: 'var(--inv-bg)',
           color: 'var(--inv-text)',
@@ -95,12 +95,11 @@ export default function ProjectModal({
             transition: 'opacity 0.35s ease',
           }}
         >
-          {/* Contained so a full page screenshot stays readable, not cropped to a detail */}
           <img
             src={project.image}
             alt={project.title}
             onLoad={() => setImageLoaded(true)}
-            className="absolute inset-0 w-full h-full object-contain p-10 mono-img"
+            className="absolute inset-0 w-full h-full object-contain p-10"
             style={{ opacity: imageLoaded ? 1 : 0 }}
           />
 
@@ -114,7 +113,7 @@ export default function ProjectModal({
           <div className="absolute top-7 left-8 flex items-center gap-3">
             {award && (
               <span
-                className="font-mono text-[10px] tracking-[0.14em] uppercase px-2 py-1"
+                className="text-[12px] font-medium px-2 py-1"
                 style={{ background: '#fff', color: '#0a0a0a' }}
               >
                 {award}
@@ -192,7 +191,7 @@ export default function ProjectModal({
             <img
               src={project.image}
               alt={project.title}
-              className="absolute inset-0 w-full h-full object-cover object-top mono-img"
+              className="absolute inset-0 w-full h-full object-cover object-top"
             />
             <div
               className="absolute inset-0"
@@ -200,7 +199,7 @@ export default function ProjectModal({
             />
             {award && (
               <span
-                className="absolute bottom-4 left-5 font-mono text-[10px] tracking-[0.14em] uppercase px-2 py-1"
+                className="absolute bottom-4 left-5 text-[12px] font-medium px-2 py-1"
                 style={{ background: '#fff', color: '#0a0a0a' }}
               >
                 {award}
@@ -228,7 +227,7 @@ export default function ProjectModal({
             </Block>
 
             {features.length > 0 && (
-              <Block label="Key features">
+              <Block label="Features">
                 <ul>
                   {features.map((feature, i) => (
                     <li
@@ -251,17 +250,17 @@ export default function ProjectModal({
             )}
 
             {hasStory && (
-              <Block label="The story">
+              <Block label="Background">
                 <div className="space-y-6">
-                  {project.challenge && <Story label="Challenge" body={project.challenge} />}
-                  {project.solution && <Story label="Solution" body={project.solution} />}
-                  {project.impact && <Story label="Impact" body={project.impact} />}
+                  {project.challenge && <Story label="Problem" body={project.challenge} />}
+                  {project.solution && <Story label="Approach" body={project.solution} />}
+                  {project.impact && <Story label="Result" body={project.impact} />}
                 </div>
               </Block>
             )}
 
             {project.technologies?.length > 0 && (
-              <Block label="Built with">
+              <Block label="Stack">
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech, i) => (
                     <span key={i} className="tag">

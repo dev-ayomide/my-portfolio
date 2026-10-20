@@ -9,8 +9,9 @@ import ProjectModal from './ProjectModal';
  * so new work added from the admin panel still shows up without a code change.
  */
 const RUNNING_ORDER = [
-  'campor',
+  'nairaledger',
   'fusion',
+  'campor',
   'seeforme',
   'runacos web design hackathon',
   'gcg3 community platform',
@@ -89,13 +90,11 @@ export default function Projects() {
           {/* Heading + filters */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12 md:mb-20">
             <div className="max-w-2xl">
-              <span className="section-cap">Selected work</span>
-              <h2 className="display-lg">
-                Things I&apos;ve <span className="serif-italic">built</span>.
-              </h2>
+              <span className="section-cap">Work</span>
+              <h2 className="display-lg">Projects</h2>
               <p className="lede mt-5">
-                Client products, hackathon builds and experiments — each one shipped, not mocked up.
-                Open any project for the full story.
+                Side projects, hackathon entries and client sites. Click any of them for more
+                detail.
               </p>
             </div>
 
@@ -107,23 +106,12 @@ export default function Projects() {
                     <button
                       key={cat}
                       onClick={() => setCategory(cat)}
-                      className="link-line font-mono text-[10px] tracking-[0.16em] uppercase"
+                      className="link-line text-[13px]"
                       style={{
                         color: active ? 'var(--text-primary)' : 'var(--text-tertiary)',
                       }}
                     >
-                      <span className="roll">
-                        <span className="roll__inner" data-label={cat}>
-                          {cat}
-                        </span>
-                      </span>
-                      <span className="text-[9px]">
-                        (
-                        {cat === 'All'
-                          ? projects.length
-                          : projects.filter((p) => p.category === cat).length}
-                        )
-                      </span>
+                      {cat}
                     </button>
                   );
                 })}
@@ -143,7 +131,7 @@ export default function Projects() {
           )}
 
           {!loading && !error && ordered.length === 0 && (
-            <p className="lede py-20 text-center">Nothing here yet — check another category.</p>
+            <p className="lede py-20 text-center">Nothing in this category yet.</p>
           )}
 
           {!loading && !error && ordered.length > 0 && (
@@ -171,14 +159,14 @@ export default function Projects() {
           <div
             className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-14"
           >
-            <p className="lede">Plenty more experiments live on GitHub.</p>
+            <p className="lede">Smaller experiments are on my GitHub.</p>
             <a
               href="https://github.com/dev-ayomide"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline self-start"
             >
-              Browse the repos
+              GitHub
               <ArrowUpRight size={11} />
             </a>
           </div>
@@ -215,23 +203,23 @@ function FeatureRow({ project, flip, onOpen }) {
       <div className={`lg:col-span-7 ${flip ? 'lg:order-2' : ''}`}>
         <button
           onClick={onOpen}
-          className="group block w-full text-left relative overflow-hidden mono-hover"
+          className="group block w-full text-left relative overflow-hidden"
           style={{
             border: '1px solid var(--border-primary)',
             background: 'var(--bg-tertiary)',
             aspectRatio: '16 / 10',
           }}
-          aria-label={`Open ${project.title} case study`}
+          aria-label={`Open ${project.title}`}
         >
           <img
             src={project.image}
             alt={project.title}
             loading="lazy"
-            className="mono-img absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.03]"
+            className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
           />
           {award && (
             <span
-              className="absolute top-4 right-4 font-mono text-[10px] tracking-[0.14em] uppercase px-2.5 py-1"
+              className="absolute top-4 right-4 text-[12px] font-medium px-2.5 py-1"
               style={{ background: 'var(--inv-bg)', color: 'var(--inv-text)' }}
             >
               {award}
@@ -247,7 +235,7 @@ function FeatureRow({ project, flip, onOpen }) {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-medium transition-transform duration-500 group-hover:translate-y-0 translate-y-2"
               style={{ background: '#fff', color: '#0a0a0a' }}
             >
-              View case study
+              View project
               <FaArrowRight size={9} />
             </span>
           </span>
@@ -293,10 +281,10 @@ function FeatureRow({ project, flip, onOpen }) {
 
         {project.technologies?.length > 0 && (
           <p
-            className="mt-5 font-mono text-[10px] leading-relaxed tracking-[0.06em]"
+            className="mt-5 text-[12px] leading-relaxed"
             style={{ color: 'var(--text-tertiary)' }}
           >
-            {project.technologies.join('  ·  ')}
+            {project.technologies.join(', ')}
           </p>
         )}
 
@@ -306,7 +294,7 @@ function FeatureRow({ project, flip, onOpen }) {
             className="link-line link-line--static text-[13px] font-medium"
             style={{ color: 'var(--text-primary)' }}
           >
-            Case study
+            Details
             <FaArrowRight size={10} />
           </button>
           {project.liveDemo && (
@@ -347,7 +335,7 @@ function ProjectIndex({ projects, onOpen }) {
   const containerRef = useRef(null);
   const lastImage = useRef(null);
 
-  // Warm the cache so the hover preview never flashes an empty frame.
+  // Preload so the hover preview doesn't flash blank.
   useEffect(() => {
     projects.forEach((project) => {
       if (!project.image) return;
@@ -367,7 +355,7 @@ function ProjectIndex({ projects, onOpen }) {
   return (
     <div className="mt-20 md:mt-32">
       <div className="flex items-baseline justify-between gap-3 mb-6">
-        <span className="eyebrow">More work</span>
+        <span className="eyebrow">More projects</span>
         <span className="eyebrow">{projects.length} projects</span>
       </div>
 
@@ -396,7 +384,6 @@ function ProjectIndex({ projects, onOpen }) {
               src={lastImage.current}
               alt=""
               className="w-full h-full object-cover object-top"
-              style={{ filter: 'grayscale(1)' }}
             />
           )}
         </div>
@@ -422,8 +409,8 @@ function ProjectIndex({ projects, onOpen }) {
               )}
             </span>
 
-            <span className="row-invert__muted hidden md:block md:col-span-4 font-mono text-[10px] truncate">
-              {(project.technologies || []).slice(0, 3).join(' · ')}
+            <span className="row-invert__muted hidden md:block md:col-span-4 text-[12px] truncate">
+              {(project.technologies || []).slice(0, 3).join(', ')}
             </span>
 
             <span className="eyebrow row-invert__muted hidden md:block md:col-span-2">

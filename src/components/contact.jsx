@@ -8,14 +8,7 @@ const details = [
   { label: 'Email', value: 'ayomidepaul784@gmail.com', href: 'mailto:ayomidepaul784@gmail.com' },
   { label: 'Phone', value: '+234 916 889 7258', href: 'tel:+2349168897258' },
   { label: 'WhatsApp', value: 'Message me', href: 'https://wa.me/qr/MKEHQ4R4AOQKO1' },
-  { label: 'Location', value: 'Lagos, Nigeria — remote friendly', href: null },
-];
-
-const socials = [
-  { label: 'GitHub', href: 'https://github.com/dev-ayomide' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/taiwoayomide/' },
-  { label: 'X', href: 'https://x.com/dev_ayomide' },
-  { label: 'Instagram', href: 'https://www.instagram.com/dev_ayomide_/' },
+  { label: 'Location', value: 'Lagos, Nigeria (remote is fine)', href: null },
 ];
 
 export default function Contact() {
@@ -61,20 +54,19 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="inverted section grain relative">
+    <section id="contact" className="inverted section relative">
       <div className="wrap relative z-10" ref={ref}>
         <span className="section-cap">Contact</span>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Pitch */}
           <div className={`lg:col-span-6 reveal ${isVisible ? 'is-visible' : ''}`}>
-            <h2 className="display-lg">
-              Let&apos;s build <span className="serif-italic">something</span> together.
-            </h2>
+            <h2 className="display-lg">Get in touch</h2>
 
             <p className="mt-6 max-w-md text-lg leading-relaxed" style={{ color: 'var(--inv-text-2)' }}>
-              I&apos;m open to freelance projects, internships and full-time roles. Tell me what
-              you&apos;re working on — I usually reply within a day.
+              I&apos;m open to internships, contract work and full-time roles, especially in
+              payments or backend. Email is the fastest way to reach me. I usually reply within
+              a day.
             </p>
 
             <a
@@ -108,21 +100,6 @@ export default function Contact() {
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-line font-mono text-[11px] tracking-[0.14em] uppercase"
-                  style={{ color: 'var(--inv-text-2)' }}
-                >
-                  {s.label}
-                  <ArrowUpRight size={8} />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Form */}
@@ -130,7 +107,7 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="space-y-9">
               <div>
                 <label htmlFor="name" className="field-label">
-                  Your name
+                  Name
                 </label>
                 <input
                   id="name"
@@ -138,7 +115,6 @@ export default function Contact() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Jane Doe"
                   className="field mt-2"
                   required
                 />
@@ -146,7 +122,7 @@ export default function Contact() {
 
               <div>
                 <label htmlFor="email" className="field-label">
-                  Your email
+                  Email
                 </label>
                 <input
                   id="email"
@@ -154,7 +130,6 @@ export default function Contact() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="jane@company.com"
                   className="field mt-2"
                   required
                 />
@@ -162,7 +137,7 @@ export default function Contact() {
 
               <div>
                 <label htmlFor="message" className="field-label">
-                  What do you have in mind?
+                  Message
                 </label>
                 <textarea
                   id="message"
@@ -170,7 +145,6 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  placeholder="A short brief, a timeline, a link…"
                   className="field mt-2 resize-none"
                   required
                 />
