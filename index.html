@@ -27,6 +27,48 @@
     <meta property="twitter:image" content="https://devayomide.vercel.app/mypic.jpg" />
 
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable profile" />
+    <link rel="canonical" href="https://devayomide.vercel.app/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:site_name" content="Ayomide Taiwo" />
+    <meta property="og:locale" content="en_NG" />
+    <meta property="og:image:alt" content="Portrait of Ayomide Taiwo" />
+
+    <!-- Structured data: tells Google who this site is about (helps name searches and knowledge panels) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://devayomide.vercel.app/#person",
+            "name": "Ayomide Taiwo",
+            "alternateName": ["Taiwo Ayomide", "dev_ayomide"],
+            "jobTitle": "AI Engineer",
+            "description": "AI-native software engineer in Lagos, Nigeria, building retrieval systems, LLM assistants and AI agents with guardrails.",
+            "url": "https://devayomide.vercel.app/",
+            "image": "https://devayomide.vercel.app/mypic.jpg",
+            "email": "mailto:ayomidepaul784@gmail.com",
+            "address": { "@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG" },
+            "alumniOf": { "@type": "CollegeOrUniversity", "name": "Redeemer's University" },
+            "knowsAbout": ["Artificial intelligence", "Large language models", "Retrieval-augmented generation", "AI agents", "LangGraph", "pgvector", "Computer vision", "Python", "TypeScript"],
+            "award": ["2nd place, Interswitch × Enyata Buildathon (500+ teams)", "2nd place, DATICAN AI in Medicine", "Winner, ALATPay Buildathon"],
+            "sameAs": [
+              "https://github.com/dev-ayomide",
+              "https://www.linkedin.com/in/taiwoayomide/",
+              "https://x.com/dev_ayomide",
+              "https://www.instagram.com/dev_ayomide_/"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://devayomide.vercel.app/#website",
+            "url": "https://devayomide.vercel.app/",
+            "name": "Ayomide Taiwo",
+            "about": { "@id": "https://devayomide.vercel.app/#person" }
+          }
+        ]
+      }
+    </script>
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#0b0c0f" />
@@ -57,6 +99,25 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <main style="max-width:680px;margin:48px auto;padding:0 20px;font-family:system-ui,sans-serif;color:#edece8;background:#0e0e0d;line-height:1.6">
+        <h1>Ayomide Taiwo — AI Engineer</h1>
+        <p>Ayomide Taiwo is an AI-native software engineer in Lagos, Nigeria, building retrieval systems, LLM assistants and AI agents with guardrails, mostly in Python and TypeScript.</p>
+        <h2>Experience</h2>
+        <ul>
+          <li>Heirs Technologies — AI Intern (2026): AI retrieval over 2,400+ support tickets for a platform used by 15 organisations, with confidence thresholds and 231 tests.</li>
+          <li>Platnova — Contract Software Engineer (2025–26): fintech customer and admin platforms.</li>
+          <li>Campor — Co-founder (2025–present): a live campus marketplace.</li>
+        </ul>
+        <h2>Selected work</h2>
+        <ul>
+          <li><a href="/work/fusion">Fusion</a> — prompt to editable product video, 2nd of 500+ teams at the Interswitch × Enyata Buildathon.</li>
+          <li><a href="/work/seeforme">SeeForMe</a> — AI assistant for blind users (YOLO v11 + LLM), 2nd at DATICAN AI in Medicine.</li>
+          <li><a href="/work/recipe-recommender">Recipe Recommender</a> — recipes from your ingredients with Gemini.</li>
+        </ul>
+        <p>Contact: <a href="mailto:ayomidepaul784@gmail.com">ayomidepaul784@gmail.com</a> · <a href="https://github.com/dev-ayomide">GitHub</a> · <a href="https://www.linkedin.com/in/taiwoayomide/">LinkedIn</a> · <a href="https://x.com/dev_ayomide">X</a></p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

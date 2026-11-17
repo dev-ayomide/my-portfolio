@@ -79,6 +79,8 @@ export function Home() {
 
   useEffect(() => {
     document.title = 'Ayomide Taiwo — AI Engineer';
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', 'https://devayomide.vercel.app/');
+    document.querySelector('meta[name="description"]')?.setAttribute('content', 'Ayomide Taiwo is an AI-native software engineer in Lagos who builds retrieval systems, LLM assistants and AI agents with guardrails, using Python, TypeScript, pgvector and LangGraph.');
     const off = mountSite((to) => navigate(to));
     let alive = true;
     getProjects().then((list) => {

@@ -529,6 +529,10 @@ export function renderCase(host, slug) {
       <a class="nx" href="/work/${n.slug}" data-nav="/work/${n.slug}"><span><small>Next project</small><b>${n.title}</b></span><span style="font-size:24px">→</span></a>
     </article>`;
   document.title = `${p.title} — Ayomide Taiwo`;
+  // Per-page description + canonical so each case study can rank on its own.
+  const setMeta = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+  setMeta('meta[name="description"]', 'content', `${p.title} by Ayomide Taiwo, AI engineer: ${p.summary}`);
+  setMeta('link[rel="canonical"]', 'href', `https://devayomide.vercel.app/work/${p.slug}`);
 }
 
 /* ====================================================================

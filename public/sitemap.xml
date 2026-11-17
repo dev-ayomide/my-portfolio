@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://devayomide.vercel.app/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/fusion</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/seeforme</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/recipe-recommender</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/campor</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/runacos-platform</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/gcg3-platform</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/kingdom-scholars-academy</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/token-management-hub</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/conference-ticket-generator</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://devayomide.vercel.app/work/chart-capstone-limited</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+</urlset>
