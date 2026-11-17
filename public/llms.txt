@@ -1,0 +1,29 @@
+# Ayomide Taiwo
+
+> AI-native software engineer in Lagos, Nigeria. Builds retrieval systems, LLM assistants and AI agents with guardrails, mostly in Python and TypeScript. Open to internships, contract and full-time roles (remote is fine).
+
+This file is a plain-text profile for AI agents and LLM tools. The human version is https://devayomide.vercel.app/
+
+## Contact
+- Email: ayomidepaul784@gmail.com
+- GitHub: https://github.com/dev-ayomide
+- LinkedIn: https://www.linkedin.com/in/taiwoayomide/
+- Résumé (PDF): https://devayomide.vercel.app/Taiwo_Ayomide_Resume_latest.pdf
+
+## Experience
+- Heirs Technologies — AI Intern, Software Engineering (Jul–Sep 2026, Lagos). Built AI knowledge retrieval over 2,400+ past tickets for an ITIL 4 service-management platform used by 15 organisations in banking, insurance and energy. Confidence thresholds route each case to answer, private analyst note, or escalation. Wrote 231 automated tests; four-stage rollout behind environment flags. Designed per-department, read-only, fail-closed data access for an AI assistant on an internal risk and audit platform. Stack: NestJS, PostgreSQL + pgvector, Prisma, Redis/BullMQ.
+- Platnova — Contract Software Engineer (Aug 2025–Mar 2026, remote). Fintech payments: deposit flows, virtual card issuance, faster transfers; admin platform for KYB compliance, merchant wallets, settlement workflows and audit trails.
+- Campor — Co-founder & Frontend Engineer (Oct 2025–present). Live student marketplace at Redeemer's University: listings, Algolia search, Socket.IO messaging, Paystack payments.
+
+## Selected projects
+- Fusion — prompt to editable product video (React/Remotion scenes). 2nd of 500+ teams, Interswitch × Enyata Buildathon.
+- SeeForMe — real-time spoken navigation for blind and visually impaired users: YOLO v11 + Groq LLM + Web Speech API. 2nd, DATICAN AI in Medicine.
+- NairaLedger — payments API with idempotency keys, row-level locking and a retrying settlement queue.
+- RUNACOS Platform — 1st place, RUNACOSS Web Design Contest.
+- Token Management Hub — ERC-20 tooling on Arbitrum Sepolia (Next.js, Wagmi, RainbowKit). Arbitrum Builders Bounty winner.
+
+## Skills
+AI: RAG and retrieval, embeddings and pgvector, LLM assistants, agents with LangGraph, Gemini, Groq, computer vision with YOLO, confidence thresholds and guardrails · Languages: Python, TypeScript, SQL · Shipping AI to production: FastAPI, NestJS, PostgreSQL, Redis, Docker · Interfaces: React, Next.js, Tailwind CSS
+
+## Education
+B.Sc. Computer Science, Redeemer's University (2023–2027). Dean's List twice; Gold Scholar 2023/24, Bronze Scholar 2024/25.
