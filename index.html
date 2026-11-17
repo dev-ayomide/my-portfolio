@@ -6,35 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary Meta Tags -->
-    <title>Ayomide Taiwo | Software Engineer</title>
-    <meta name="title" content="Ayomide Taiwo | Software Engineer" />
-    <meta name="description" content="Ayomide Taiwo is a software engineer in Lagos working on payments and enterprise systems with Python, TypeScript, FastAPI, NestJS and PostgreSQL." />
-    <meta name="keywords" content="Ayomide Taiwo, software engineer, backend engineer, payments, fintech, FastAPI, NestJS, PostgreSQL, React, Lagos, Nigeria" />
+    <title>Ayomide Taiwo — AI Engineer</title>
+    <meta name="title" content="Ayomide Taiwo — AI Engineer" />
+    <meta name="description" content="Ayomide Taiwo is an AI-native software engineer in Lagos who builds retrieval systems, LLM assistants and AI agents with guardrails, using Python, TypeScript, pgvector and LangGraph." />
+    <meta name="keywords" content="Ayomide Taiwo, AI engineer, AI-native software engineer, LLM, RAG, retrieval, AI agents, LangGraph, pgvector, Python, TypeScript, Lagos, Nigeria" />
     <meta name="author" content="Ayomide Taiwo" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://devayomide.vercel.app/" />
-    <meta property="og:title" content="Ayomide Taiwo | Software Engineer" />
-    <meta property="og:description" content="Software engineer in Lagos working on payments and enterprise systems." />
-    <meta property="og:image" content="/mypic.jpg" />
+    <meta property="og:title" content="Ayomide Taiwo — AI Engineer" />
+    <meta property="og:description" content="AI-native software engineer in Lagos. Retrieval, LLM assistants and AI agents that know when not to answer." />
+    <meta property="og:image" content="https://devayomide.vercel.app/mypic.jpg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://devayomide.vercel.app/" />
-    <meta property="twitter:title" content="Ayomide Taiwo | Software Engineer" />
-    <meta property="twitter:description" content="Software engineer in Lagos working on payments and enterprise systems." />
-    <meta property="twitter:image" content="/mypic.jpg" />
+    <meta property="twitter:title" content="Ayomide Taiwo — AI Engineer" />
+    <meta property="twitter:description" content="AI-native software engineer in Lagos. Retrieval, LLM assistants and AI agents that know when not to answer." />
+    <meta property="twitter:image" content="https://devayomide.vercel.app/mypic.jpg" />
+
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable profile" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#0b0c0f" />
 
     <!-- Set theme before paint to avoid a flash -->
     <script>
       (function () {
         try {
-          var t = localStorage.getItem('theme') || 'light';
+          var onSite = location.pathname.indexOf('/admin') !== 0;
+          var t = onSite ? 'dark' : (localStorage.getItem('theme') || 'light');
           document.documentElement.setAttribute('data-theme', t);
+          if (onSite) document.documentElement.style.background = '#0b0c0f';
         } catch (e) {
           document.documentElement.setAttribute('data-theme', 'light');
         }
@@ -42,10 +46,12 @@
     </script>
 
     <!-- Fonts -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link href="https://api.fontshare.com/v2/css?f[]=gambetta@400,500,401&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=DM+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=DM+Mono:wght@400;500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>

@@ -1,62 +1,26 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar';
-import Hero from './components/hero';
-import About from './components/About';
-import TechStack from './components/TechStack';
-import Projects from './components/projects';
-import Experience from './components/experience';
-import Contact from './components/contact';
-import Footer from './components/footer';
-import AdminProjects from './components/AdminProjects';
-import AdminMessages from './components/AdminMessages';
-import './App.css';
+
+// Each area loads its own code: visitors never download the admin, and vice versa.
+const SiteLayout = lazy(() => import('./site/Site').then((m) => ({ default: m.SiteLayout })));
+const Home = lazy(() => import('./site/Site').then((m) => ({ default: m.Home })));
+const CaseStudyPage = lazy(() => import('./site/Site').then((m) => ({ default: m.CaseStudyPage })));
+const AdminArea = lazy(() => import('./AdminArea'));
+
+const Blank = () => <div style={{ minHeight: '100vh', background: 'var(--bg, #0e0e0d)' }} />;
 
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Admin */}
-        <Route
-          path="/admin"
-          element={
-            <div style={{ background: 'var(--bg-primary)', minHeight: '100vh' }}>
-              <AdminProjects />
-            </div>
-          }
-        />
-        <Route
-          path="/admin/messages"
-          element={
-            <div style={{ background: 'var(--bg-primary)', minHeight: '100vh' }}>
-              <AdminMessages />
-            </div>
-          }
-        />
-
-        {/* Portfolio */}
-        <Route
-          path="/"
-          element={
-            <div
-              className="relative"
-              style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
-            >
-              <Navbar />
-
-              <main>
-                <Hero />
-                <About />
-                <TechStack />
-                <Projects />
-                <Experience />
-                <Contact />
-              </main>
-
-              <Footer />
-            </div>
-          }
-        />
-      </Routes>
+      <Suspense fallback={<Blank />}>
+        <Routes>
+          <Route path="/admin/*" element={<AdminArea />} />
+          <Route element={<SiteLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/work/:slug" element={<CaseStudyPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
